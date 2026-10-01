@@ -4,14 +4,12 @@ A Node.js and Express.js workshop project demonstrating a modular backend archit
 
 Features
 
-- Express.js REST API
 - Modular project structure
 - CRUD operations for products
 - JSON file-based database
 - GET request caching
 - `X-Cache: HIT/MISS` response headers
 - 1-minute cache TTL
-- Automatic cache invalidation after data modification
 - Supports GET, POST, PUT, PATCH, and DELETE
 
 Project Structure
