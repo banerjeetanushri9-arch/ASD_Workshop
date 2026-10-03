@@ -9,3 +9,7 @@ app.use(express.json());
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
+
+const productRoutes = require("./routes/productRoutes");
+
+app.use(productRoutes);
