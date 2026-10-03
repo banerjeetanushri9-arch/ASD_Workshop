@@ -5,6 +5,7 @@ const {
 
 async function getAllProducts() {
     const products = await getProducts();
+
     return products;
 }
 
