@@ -1,10 +1,17 @@
 const productService = require("../services/productService");
 
+const {
+    setCache
+} = require("../middleware/cacheMiddleware");
+
 async function getProducts(req, res) {
     try {
         const products = await productService.getAllProducts();
 
+        setCache(req.originalUrl, products);
+
         res.json(products);
+
     } catch (err) {
         console.log(err);
         res.status(500).send("Server Error");
@@ -21,7 +28,10 @@ async function getProductById(req, res) {
             return res.status(404).send("Product not found");
         }
 
+        setCache(req.originalUrl, product);
+
         res.json(product);
+
     } catch (err) {
         console.log(err);
         res.status(500).send("Server Error");
@@ -33,6 +43,7 @@ async function createProduct(req, res) {
         const product = await productService.createProduct(req.body);
 
         res.status(201).json(product);
+
     } catch (err) {
         console.log(err);
         res.status(500).send("Server Error");
@@ -53,6 +64,7 @@ async function updateProduct(req, res) {
         }
 
         res.json(product);
+
     } catch (err) {
         console.log(err);
         res.status(500).send("Server Error");
@@ -70,6 +82,7 @@ async function deleteProduct(req, res) {
         }
 
         res.json(product);
+
     } catch (err) {
         console.log(err);
         res.status(500).send("Server Error");
