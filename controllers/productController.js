@@ -1,28 +1,16 @@
 const productService = require("../services/productService");
 
-const {
-    setCache,
-    clearCache
-} = require("../middleware/cacheMiddleware");
-
-
-// GET /product
 async function getProducts(req, res) {
     try {
         const products = await productService.getAllProducts();
 
-        setCache(req.originalUrl, products);
-
         res.json(products);
-
     } catch (err) {
         console.log(err);
         res.status(500).send("Server Error");
     }
 }
 
-
-// GET /product/:id
 async function getProductById(req, res) {
     try {
         const { id } = req.params;
@@ -33,35 +21,24 @@ async function getProductById(req, res) {
             return res.status(404).send("Product not found");
         }
 
-        setCache(req.originalUrl, product);
-
         res.json(product);
-
     } catch (err) {
         console.log(err);
         res.status(500).send("Server Error");
     }
 }
 
-
-// POST /product
 async function createProduct(req, res) {
     try {
         const product = await productService.createProduct(req.body);
 
-        clearCache();
-
         res.status(201).json(product);
-
     } catch (err) {
         console.log(err);
         res.status(500).send("Server Error");
     }
 }
 
-
-// PUT /product/:id
-// PATCH /product/:id
 async function updateProduct(req, res) {
     try {
         const { id } = req.params;
@@ -75,18 +52,13 @@ async function updateProduct(req, res) {
             return res.status(404).send("Product not found");
         }
 
-        clearCache();
-
         res.json(product);
-
     } catch (err) {
         console.log(err);
         res.status(500).send("Server Error");
     }
 }
 
-
-// DELETE /product/:id
 async function deleteProduct(req, res) {
     try {
         const { id } = req.params;
@@ -97,16 +69,12 @@ async function deleteProduct(req, res) {
             return res.status(404).send("Product not found");
         }
 
-        clearCache();
-
         res.json(product);
-
     } catch (err) {
         console.log(err);
         res.status(500).send("Server Error");
     }
 }
-
 
 module.exports = {
     getProducts,
