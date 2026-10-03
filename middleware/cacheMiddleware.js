@@ -33,7 +33,14 @@ function setCache(key, data) {
     };
 }
 
+function clearCache() {
+    Object.keys(cache).forEach((key) => {
+        delete cache[key];
+    });
+}
+
 module.exports = {
     cacheMiddleware,
-    setCache
+    setCache,
+    clearCache
 };
