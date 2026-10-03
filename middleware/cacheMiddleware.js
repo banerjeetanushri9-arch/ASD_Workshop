@@ -1,21 +1,36 @@
 const cache = {};
 
+const TTL = 60 * 1000;
+
 function cacheMiddleware(req, res, next) {
     const key = req.originalUrl;
 
-    if (cache[key]) {
-        res.set("X-Cache", "HIT");
+    const cached = cache[key];
 
-        return res.json(cache[key]);
+    if (!cached) {
+        res.set("X-Cache", "MISS");
+        return next();
     }
 
-    res.set("X-Cache", "MISS");
+    const age = Date.now() - cached.createdAt;
 
-    next();
+    if (age > TTL) {
+        delete cache[key];
+
+        res.set("X-Cache", "MISS");
+        return next();
+    }
+
+    res.set("X-Cache", "HIT");
+
+    return res.json(cached.data);
 }
 
 function setCache(key, data) {
-    cache[key] = data;
+    cache[key] = {
+        data: data,
+        createdAt: Date.now()
+    };
 }
 
 module.exports = {
